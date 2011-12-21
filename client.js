@@ -3,7 +3,7 @@ $(document).ready(function() {
 	lastPressed.setDate(0);
 	
 	$("#search").addClass("suceess");
-	fetch();
+	// fetch();
 	
 	function handleLoading() {
 		lastPressed = new Date();
@@ -14,19 +14,38 @@ $(document).ready(function() {
 		if ( lastPressed.getTime() + 800 < t.getTime() ) {
 			lastPressed = new Date();
 			var id    = escape($("#search").val());
-			var typ   = escape($("#type").val());
 			var state = escape($("#state").val());
 			
-			$("#search-res").load("search-backend.php?text=" + id + "&type=" + typ + "&state=" + state);
-			$("#search").removeClass("failure");
-			$("#search").addClass("success");
+			$("#search-res").load("search-backend.php?text=" + id
+				+ "&state=" + state,
+			function() {
+				$("#status").html("Up-to-date");
+
+				$("#search").removeClass("failure");
+				$("#search").addClass("success");
+				$("#state").removeClass("failure");
+				$("#state").addClass("success");
+									
+				$("#search").removeAttr('disabled');
+				$("#state").removeAttr( 'disabled');
+				
+			});
 		} else {
 			setTimeout( fetch, 10 );
 		}
 	}
-	$("#search").keyup(function() {
+	$("#search").change(function() {
 		handleLoading();
+		
+		$("#search").attr('disabled', 'disabled');
+		$("#state").attr('disabled',  'disabled');
+		
+		$("#status").html("Loading...");
+		
 		$("#search").removeClass("success");
 		$("#search").addClass("failure");
+		
+		$("#state").removeClass("success");
+		$("#state").addClass("failure");		
 	});
 });

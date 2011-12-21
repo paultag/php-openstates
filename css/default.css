@@ -17,6 +17,7 @@ body {
 	background-color:      #bfc39c;
 	min-height:            200px;
 	margin-top:            50px;
+	padding:               10px;
 }
 
 .success {
