@@ -14,6 +14,9 @@ class openstates {
     }
 
     private function getJSON( $URL ) {
+    
+       	// print $URL;
+        
         $contents = file_get_contents($URL);
         $contents = json_decode($contents);
         return $contents;
